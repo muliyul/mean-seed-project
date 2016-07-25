@@ -1,0 +1,47 @@
+{
+  "name": "MEAN-Seed-Project",
+  "version": "1.0.0",
+  "description": "",
+  "main": "bin/index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "muliyul@gmail.com",
+  "license": "ISC",
+  "dependencies": {
+    "async": "^2.0.0-rc.4",
+    "bcrypt": "^0.8.6",
+    "body-parser": "^1.15.1",
+    "compression": "^1.6.1",
+    "cors": "^2.7.1",
+    "debug": "^2.2.0",
+    "express": "^4.13.4",
+    "express-restify-mongoose": "^4.0.2",
+    "favicon": "0.0.2",
+    "jsonwebtoken": "^6.2.0",
+    "mongo-uri-builder": "^1.0.3",
+    "mongoose": "^4.4.15",
+    "passport": "^0.3.2",
+    "passport-custom": "^1.0.5",
+    "passport-jwt": "^2.0.0",
+    "passport-local": "^1.0.0",
+    "path": "^0.12.7",
+    "q": "^1.4.1"
+  },
+  "devDependencies": {
+    "browser-sync": "^2.13.0",
+    "del": "^2.2.1",
+    "gulp": "^3.9.1",
+    "gulp-autoprefixer": "^3.1.0",
+    "gulp-compass": "^2.1.0",
+    "gulp-concat": "^2.6.0",
+    "gulp-htmlmin": "^2.0.0",
+    "gulp-less": "^3.1.0",
+    "gulp-plumber": "^1.1.0",
+    "gulp-rename": "^1.2.2",
+    "gulp-sourcemaps": "^1.6.0",
+    "gulp-uglify": "^1.5.4",
+    "gulp-uglifycss": "^1.0.6"
+  }
+}

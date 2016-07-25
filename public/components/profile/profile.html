@@ -1,0 +1,12 @@
+<div class="row">
+    <div class="col-xs-12 jumbotron text-center">
+        <h3>Welcome, {{::vm.displayName.facebook || vm.displayName.google || vm.user.username()}}</h3>
+        <img src="assets/images/user-placeholder.jpg" ng-src="{{::vm.picture.facebook || vm.picture.google}}" alt="" style="width: 76px;height:76px;border-radius: 38px">
+    </div>
+
+    <div class="col-xs-12 text-right">
+        <button class="btn btn-danger" ng-click="vm.logout()">
+            Logout
+        </button>
+    </div>
+</div>

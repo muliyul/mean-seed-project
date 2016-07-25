@@ -1,0 +1,30 @@
+{
+  "name": "MEAN-Seed-Project",
+  "description": "",
+  "main": "bin/index.js",
+  "authors": [
+    "Muli Yulzary <muliyul@gmail.com>"
+  ],
+  "license": "ISC",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "^1.5.7",
+    "angular-ui-router": "^0.2.18",
+    "bootstrap": "^3.3.6",
+    "angular-bootstrap": "^1.3.2",
+    "oclazyload": "ocLazyLoad#^1.0.9",
+    "angular-resource": "^1.5.7",
+    "ngstorage": "^0.3.10",
+    "angular-jwt": "^0.0.9",
+    "font-awesome": "fontawesome#^4.6.3",
+    "ng-facebook": "^0.1.6",
+    "ng-google-signin": "^0.1.0"
+  }
+}
