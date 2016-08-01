@@ -63,8 +63,10 @@ gulp.task('browser-sync', function () {
 });
 
 gulp.task('restart-bs', function () {
-    bs.server.close();
-    bs.server.listen(bs.options.get("port"));
+    if (bs) {
+        bs.server.close();
+        bs.server.listen(bs.options.get("port"));
+    }
 });
 
 gulp.task('watch', function () {

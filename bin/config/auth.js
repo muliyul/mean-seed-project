@@ -71,7 +71,7 @@ passport.use('signup', new LocalStrategy({session: false}, function (usernameOrE
 
 passport.use('facebook', new CustomStrategy(function (req, done) {
     var fbData = req.body.data;
-    fbData.picture = 'http://graph.facebook.com/' + fbData.id + '/picture?type=square';
+    fbData.picture = 'http://graph.facebook.com/' + fbData.id + '/picture?type=large';
     try {
         fbData.birthday = Date(fbData.birthday)
     }
@@ -110,11 +110,11 @@ passport.use('google', new CustomStrategy(function (req, done) {
 }));
 
 passport.use(new JwtStrategy({
-    jwtFromRequest: ExtractJwt.fromAuthHeader(),
+    jwtFromRequest: ExtractJwt.fromAuthHeaderWithScheme('Bearer'),
     secretOrKey: keys.app.secret,
     session: false
 }, function (jwt_payload, done) {
-    User.findById(jwt_payload.sub)
+    User.findById(jwt_payload.subject)
         .then(function (user) {
             if (!user)
                 return done();

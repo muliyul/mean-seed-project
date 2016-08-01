@@ -14,21 +14,17 @@ router.get('/api', function (req, res) {
 
 restify.serve(router, User, {
     name: 'users',
-    preRead: authMiddleware(true),
-    preUpdate: authMiddleware(true),
-    preDelete: methodNotAllowed
-});
-
-function authMiddleware(optionalAuth) {
-    return function (req, res, next) {
+    preDelete: methodNotAllowed,
+    access: function (req, done) {
         passport.authenticate('jwt', function (err, user, info) {
-            req.user = user;
-
-            //Don't pass error if optional.
-            next(optionalAuth ? null : err, user);
-        })(req, res, next);
+            if(user && req.params.id){
+                if(user.id === req.params.id)
+                    return done(null, 'private');
+            }
+            done(null, 'public');
+        })(req, req.res);
     }
-}
+});
 
 function methodNotAllowed(req, res) {
     res.status(405).json({error: {message: 'Method not allowed'}});

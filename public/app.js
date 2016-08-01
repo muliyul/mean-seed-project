@@ -1,86 +1,81 @@
 //Created by Muli on 09-May-16.
 angular.module('app', [
+    'ngAnimate',
+    'ngTouch',
+    'ui.bootstrap',
     'ui.router',
+    'ngStorage',
     'oc.lazyLoad',
     'app.services'
 ])
-    .provider('baseUrl', function baseUrlProvider() {
-        var self = this;
+    .config(['$stateProvider', '$urlRouterProvider', '$locationProvider', '$httpProvider', '$localStorageProvider',
+        function ($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider, $localStorageProvider) {
+            $localStorageProvider.setKeyPrefix('app');
 
-        this.url = window.location.origin;
-
-        this.set = function (url) {
-            this.url = url;
-        };
-
-        this.get = function () {
-            return self.url;
-        };
-
-        this.$get = [function () {
-            return new baseUrlProvider();
-        }]
-    })
-    .config(['$stateProvider', '$urlRouterProvider', '$locationProvider', '$httpProvider', '$sessionStorageProvider',
-        function ($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider, $sessionStorageProvider) {
-            $sessionStorageProvider.setKeyPrefix('app');
+            $httpProvider.interceptors.push('jwtInterceptor');
+            $httpProvider.interceptors.push('jwtResponseInterceptor');
 
             $urlRouterProvider.otherwise('/');
-            $httpProvider.interceptors.push('jwtInterceptor');
 
             function lazyLoad(dependencies) {
-                return ['$ocLazyLoad', function ($ocLazyLoad) {
+                return ['$ocLazyLoad', '$$animateJs', function ($ocLazyLoad) {
                     return $ocLazyLoad.load(dependencies);
                 }];
-            }
-
-            function makeState(opts) {
-                if (!opts.name)
-                    throw Error('State name can\'t be empty!');
-
-                var resolve = {
-                    module: opts.controller ? lazyLoad('components/' + opts.name + '/' + opts.name + '.min.js') : undefined
-                };
-
-                if (opts.resolve)
-                    angular.merge(resolve, opts.resolve);
-
-                return {
-                    url: opts.url ? opts.url : '/' + opts.name,
-                    templateUrl: opts.templateUrl ? opts.templateUrl : 'components/' + opts.name + '/' + opts.name + '.html',
-                    controller: opts.controller ? opts.name + 'Ctrl as vm' : undefined,
-                    resolve: resolve
-                }
             }
 
             $stateProvider
                 .state('home', {
                     url: '/',
-                    templateUrl: 'components/home/home.html'
+                    templateUrl: 'components/statics/home.html'
                 })
-                .state('login', makeState({
-                    name: 'login',
-                    controller: true
-                }))
-                .state('profile', makeState({
-                    name: 'profile',
-                    controller: true,
+                //<editor-fold desc="Secure states">
+                .state('auth', {
+                    url: '/auth',
+                    abstract: true,
+                    template: '<ui-view></ui-view>'
+                })
+                .state('auth.login', {
+                    url: '/login',
+                    controller: 'loginCtrl as vm',
+                    templateUrl: 'components/auth/login.html',
                     resolve: {
+                        module: lazyLoad('components/auth/login.min.js')
+                    }
+                })
+                .state('auth.signup', {
+                    url: '/signup',
+                    controller: 'signupCtrl as vm',
+                    templateUrl: 'components/auth/signup.html',
+                    resolve: {
+                        module: lazyLoad('components/auth/signup.min.js')
+                    }
+                })
+                .state('auth.reset', {
+                    url: '/reset',
+                    controller: 'resetPassCtrl as vm',
+                    templateUrl: 'components/auth/reset.html',
+                    resolve: {
+                        module: lazyLoad('components/auth/reset.min.js')
+                    }
+                })
+                //</editor-fold>
+                .state('profile', {
+                    url: '/profile',
+                    controller: 'profileCtrl as vm',
+                    templateUrl: 'components/profile/profile.html',
+                    resolve: {
+                        module: lazyLoad('components/profile/profile.min.js'),
                         user: ['$state', '$q', 'Auth', function ($state, $q, Auth) {
                             var user = Auth.currentUser();
                             if (!user) {
-                                return $q.reject().catch(function () {
-                                    $state.go('home');
-                                })
+                                $state.go('home');
+                                return $q.reject();
                             } else
                                 return user;
                         }]
                     }
-                }))
-                .state('signup', makeState({
-                    name: 'signup',
-                    controller: true
-                }));
+                })
+            ;
 
             $locationProvider
                 .html5Mode(true)

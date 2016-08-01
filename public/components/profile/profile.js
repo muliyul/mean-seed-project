@@ -1,7 +1,9 @@
 /**
  * Created by Muli Yulzary on 23-Jun-16.
  */
-angular.module('app.components.profile', [])
+angular.module('app.components.profile', [
+    'app.services'
+])
     .controller('profileCtrl', ['$state', 'Auth', 'user',
         function ($state, Auth, user) {
             var vm = this;
@@ -13,4 +15,8 @@ angular.module('app.components.profile', [])
                 Auth.logout();
                 $state.go('home');
             };
+
+            vm.refresh = function () {
+                vm.user.$get();
+            }
         }]);

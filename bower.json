@@ -15,16 +15,17 @@
     "tests"
   ],
   "dependencies": {
-    "angular": "^1.5.7",
+    "angular": "^1.5.8",
     "angular-ui-router": "^0.2.18",
-    "bootstrap": "^3.3.6",
-    "angular-bootstrap": "^1.3.2",
+    "angular-bootstrap": "^2.0.0",
     "oclazyload": "ocLazyLoad#^1.0.9",
-    "angular-resource": "^1.5.7",
+    "angular-resource": "^1.5.8",
     "ngstorage": "^0.3.10",
     "angular-jwt": "^0.0.9",
     "font-awesome": "fontawesome#^4.6.3",
     "ng-facebook": "^0.1.6",
-    "ng-google-signin": "^0.1.0"
+    "ng-google-signin": "^0.1.0",
+    "angular-touch": "^1.5.8",
+    "angular-animate": "^1.5.8"
   }
 }

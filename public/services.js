@@ -6,7 +6,25 @@ angular.module('app.services', [
     'ngStorage',
     'angular-jwt'
 ])
-    .factory('API', ['$resource', 'baseUrl', function ($resource, baseUrl) {
+    .provider('baseUrl', function baseUrlProvider() {
+        var self = this;
+
+        this.url = window.location.origin;
+
+        this.set = function (url) {
+            this.url = url;
+        };
+
+        this.get = function () {
+            return self.url;
+        };
+
+        this.$get = [function () {
+            return new baseUrlProvider();
+        }]
+    })
+    .factory('API', ['$resource', 'baseUrl', 'Token', function ($resource, baseUrl, Token) {
+
         var UserResource = $resource(baseUrl.get() + '/api/users/:id', {id: '@_id'}, {
             login: {
                 method: 'POST',
@@ -20,6 +38,10 @@ angular.module('app.services', [
                 method: 'POST',
                 url: baseUrl.get() + '/auth/signup',
                 cache: true
+            },
+            resetPassword: {
+                method: 'POST',
+                url: baseUrl.get() + '/auth/reset'
             }
         });
 
@@ -92,18 +114,20 @@ angular.module('app.services', [
         };
 
         this.currentUser = function () {
-            if(!self.user && Token.get())
-                self.user = API.User.get({id: Token.get().subject})
+            if (!self.user && Token.get())
+                self.user = API.User.get({id: Token.get().subject});
             return self.user;
         };
 
         return this;
     }])
-    .service('Token', ['$sessionStorage', 'jwtHelper', function ($sessionStorage, jwtHelper) {
+    .service('Token', ['$localStorage', 'jwtHelper', function ($localStorage, jwtHelper) {
         var self = this;
 
-        this.get = function () {
-            var token = $sessionStorage.token;
+        this.get = function (raw) {
+            var token = $localStorage.token;
+            if (raw)
+                return token;
             try {
                 return jwtHelper.decodeToken(token);
             } catch (e) {
@@ -111,7 +135,7 @@ angular.module('app.services', [
         };
 
         this.set = function (token) {
-            $sessionStorage.token = token;
+            $localStorage.token = token;
         };
 
         this.clear = function () {
@@ -120,17 +144,8 @@ angular.module('app.services', [
 
         return this;
     }])
-    .factory('jwtInterceptor', ['$q', 'Token', function ($q, Token) {
+    .factory('jwtResponseInterceptor', ['$q', 'Token', function ($q, Token) {
         return {
-            request: function (config) {
-                var token = Token.get();
-                if (token)
-                    config.headers.Authorization = 'JWT ' + token;
-                return config;
-            },
-            requestError: function (rejection) {
-                return $q.reject(rejection);
-            },
             response: function (response) {
                 try {
                     var token = response.headers('Authorization').split(' ')[1];
@@ -156,4 +171,14 @@ angular.module('app.services', [
                 return $q.reject(rejection);
             }
         };
+    }])
+    .config(['$httpProvider', 'jwtInterceptorProvider', function ($httpProvider, jwtInterceptorProvider) {
+        jwtInterceptorProvider.tokenGetter = ['config', 'Token', function (config, Token) {
+            // Skip authentication for any requests ending in .html
+            if (config.url.substr(config.url.length - 5) == '.html') {
+                return null;
+            }
+
+            return Token.get(true);
+        }];
     }]);

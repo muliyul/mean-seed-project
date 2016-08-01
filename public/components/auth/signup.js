@@ -1,7 +1,9 @@
 /**
  * Created by Muli Yulzary on 23-Jun-16.
  */
-angular.module('app.components.signup', [])
+angular.module('app.components.auth.signup', [
+    'app.services'
+])
     .controller('signupCtrl', ['$state', 'Auth', function ($state, Auth) {
         var vm = this;
 
