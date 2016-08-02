@@ -8,8 +8,9 @@ angular.module('app', [
     'oc.lazyLoad',
     'app.services'
 ])
-    .config(['$stateProvider', '$urlRouterProvider', '$locationProvider', '$httpProvider', '$localStorageProvider', '$ocLazyLoadProvider', '$compileProvider',
-        function ($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider, $localStorageProvider, $ocLazyLoadProvider, $compileProvider) {
+    .config(['$stateProvider', '$urlRouterProvider', '$locationProvider', '$httpProvider', '$localStorageProvider', '$ocLazyLoadProvider', '$compileProvider', 'baseUrlProvider',
+        function ($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider, $localStorageProvider, $ocLazyLoadProvider, $compileProvider, baseUrlProvider) {
+            baseUrlProvider.set('https://meanbp.herokuapp.com');
 
             $compileProvider.debugInfoEnabled(false);
 

@@ -32,11 +32,11 @@ app.use(passport.initialize());
 require('./bin/config/auth')(app);
 
 var oneDay = 86400000;
-app.use(express.static(path.join(__dirname, '/public')/*, {maxAge: oneDay}*/));
+app.use(express.static(path.join(__dirname, 'public')/*, {maxAge: oneDay}*/));
 
 app.use(require('./bin/routers/api'));
 app.get('/*', function (req, res) {
-    res.sendFile('index.html', {root: path.join(__dirname, '/public')});
+    res.sendFile('index.html', {root: path.join(__dirname, 'public')});
 });
 
 mongoose.connect(dbs[config.mode], function (e) {
