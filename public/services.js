@@ -20,7 +20,11 @@ angular.module('app.services', [
         };
 
         this.$get = [function () {
-            return new baseUrlProvider();
+            return {
+                get: function () {
+                    return self.url;
+                }
+            };
         }]
     })
     .factory('API', ['$resource', 'baseUrl', 'Token', function ($resource, baseUrl, Token) {
@@ -63,7 +67,7 @@ angular.module('app.services', [
                     google: google ? google.last_name : null
                 }
             },
-            profilePicture: function () {
+            picture: function () {
                 var facebook = this.identities.facebook, google = this.identities.google;
                 return {
                     facebook: facebook ? facebook.picture : null,

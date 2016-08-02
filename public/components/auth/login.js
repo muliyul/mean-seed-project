@@ -4,12 +4,7 @@
 angular.module('app.components.auth.login', [
     'app.services',
     'ngFacebook',
-    'google-signin',
-    [
-        'https://connect.facebook.net/en_us/sdk.js',
-        'libs/ng-facebook/ngFacebook.js',
-        'libs/ng-google-signin/dist/ng-google-signin.min.js'
-    ]
+    'google-signin'
 ])
     .config(['$facebookProvider', 'GoogleSigninProvider', function ($facebookProvider, GoogleSigninProvider) {
         $facebookProvider.setPermissions('email');

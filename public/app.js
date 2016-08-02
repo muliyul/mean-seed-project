@@ -8,8 +8,12 @@ angular.module('app', [
     'oc.lazyLoad',
     'app.services'
 ])
-    .config(['$stateProvider', '$urlRouterProvider', '$locationProvider', '$httpProvider', '$localStorageProvider',
-        function ($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider, $localStorageProvider) {
+    .config(['$stateProvider', '$urlRouterProvider', '$locationProvider', '$httpProvider', '$localStorageProvider', '$ocLazyLoadProvider', '$compileProvider',
+        function ($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider, $localStorageProvider, $ocLazyLoadProvider, $compileProvider) {
+
+            $compileProvider.debugInfoEnabled(false);
+
+            $ocLazyLoadProvider.config({debug: true});
             $localStorageProvider.setKeyPrefix('app');
 
             $httpProvider.interceptors.push('jwtInterceptor');
@@ -28,61 +32,66 @@ angular.module('app', [
                     url: '/',
                     templateUrl: 'components/statics/home.html'
                 })
-                //<editor-fold desc="Secure states">
+
                 .state('auth', {
-                    url: '/auth',
                     abstract: true,
-                    template: '<ui-view></ui-view>'
+                    template: '<ui-view></ui-view>',
+                    resolve: {
+                        module: lazyLoad('components/auth/auth.min.js')
+                    }
                 })
                 .state('auth.login', {
                     url: '/login',
                     controller: 'loginCtrl as vm',
                     templateUrl: 'components/auth/login.html',
                     resolve: {
-                        module: lazyLoad('components/auth/login.min.js')
+                        user: ['$q', 'Auth', function ($q, Auth) {
+                            var user = Auth.currentUser();
+                            if (user) {
+                                return $q.reject({redirect: 'profile'});
+                            }
+                        }]
                     }
                 })
                 .state('auth.signup', {
                     url: '/signup',
                     controller: 'signupCtrl as vm',
-                    templateUrl: 'components/auth/signup.html',
-                    resolve: {
-                        module: lazyLoad('components/auth/signup.min.js')
-                    }
+                    templateUrl: 'components/auth/signup.html'
                 })
                 .state('auth.reset', {
                     url: '/reset',
                     controller: 'resetPassCtrl as vm',
-                    templateUrl: 'components/auth/reset.html',
-                    resolve: {
-                        module: lazyLoad('components/auth/reset.min.js')
-                    }
+                    templateUrl: 'components/auth/reset.html'
                 })
-                //</editor-fold>
+
                 .state('profile', {
                     url: '/profile',
                     controller: 'profileCtrl as vm',
                     templateUrl: 'components/profile/profile.html',
                     resolve: {
                         module: lazyLoad('components/profile/profile.min.js'),
-                        user: ['$state', '$q', 'Auth', function ($state, $q, Auth) {
+                        user: ['$q', 'Auth', function ($q, Auth) {
                             var user = Auth.currentUser();
                             if (!user) {
-                                $state.go('home');
-                                return $q.reject();
-                            } else
-                                return user;
+                                return $q.reject({redirect: redirect});
+                            }
+                            return user.$promise;
                         }]
                     }
-                })
-            ;
+                });
 
             $locationProvider
                 .html5Mode(true)
                 .hashPrefix('!');
         }])
-    .run(['$rootScope', function ($rootScope) {
-
+    .run(['$rootScope', '$state', function ($rootScope, $state) {
+        $rootScope.$on('$stateChangeError', function (evt, to, toParams, from, fromParams, error) {
+            if (error.redirect) {
+                $state.go(error.redirect);
+            } else {
+                $state.go('error', {status: error.status})
+            }
+        })
     }]);
 
 angular.module('app.components', []);

@@ -8,8 +8,8 @@ angular.module('app.components.profile', [
         function ($state, Auth, user) {
             var vm = this;
             vm.user = user;
-            vm.displayName = user.firstName();
-            vm.picture = user.profilePicture();
+            vm.displayName = user.firstName() || user.username();
+            vm.picture = user.picture();
 
             vm.logout = function () {
                 Auth.logout();
