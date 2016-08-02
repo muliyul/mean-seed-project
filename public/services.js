@@ -27,8 +27,7 @@ angular.module('app.services', [
             };
         }]
     })
-    .factory('API', ['$resource', 'baseUrl', 'Token', function ($resource, baseUrl, Token) {
-
+    .factory('API', ['$resource', 'baseUrl', function ($resource, baseUrl) {
         var UserResource = $resource(baseUrl.get() + '/api/users/:id', {id: '@_id'}, {
             login: {
                 method: 'POST',

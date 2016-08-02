@@ -14,7 +14,7 @@ const passport = require('passport');
 const mongoose = require('mongoose');
 const debug = require('debug')('app');
 const fs = require('fs');
-const config = require('./bin/config');
+const config = require('./config/index');
 const dbs = config.database;
 
 mongoose.Promise = require('q').Promise;
@@ -29,14 +29,14 @@ app.use(bodyParser.json());
 app.use(passport.initialize());
 //app.use(favicon(path.join(__dirname, 'public/assets/icons/favicon.ico')));
 
-require('./bin/config/auth')(app);
+require('./config/auth')(app);
 
 var oneDay = 86400000;
-app.use(express.static(path.join(__dirname, 'public')/*, {maxAge: oneDay}*/));
+app.use(express.static(path.join(__dirname, '../public')/*, {maxAge: oneDay}*/));
 
-app.use(require('./bin/routers/api'));
+app.use(require('./routers/api'));
 app.get('/*', function (req, res) {
-    res.sendFile('index.html', {root: path.join(__dirname, 'public')});
+    res.sendFile('index.html', {root: path.join(__dirname, '../public')});
 });
 
 mongoose.connect(dbs[config.mode], function (e) {
