@@ -74,7 +74,7 @@ angular.module('app', [
                         user: ['$q', 'Auth', function ($q, Auth) {
                             var user = Auth.currentUser();
                             if (!user) {
-                                return $q.reject({redirect: redirect});
+                                return $q.reject({redirect: 'auth.login'});
                             }
                             return user.$promise;
                         }]

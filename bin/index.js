@@ -31,8 +31,8 @@ app.use(passport.initialize());
 
 require('./config/auth')(app);
 
-var oneDay = 86400000;
-app.use(express.static(path.join(__dirname, '../public')/*, {maxAge: oneDay}*/));
+var oneHour = 3600 * 1000;
+app.use(express.static(path.join(__dirname, '../public'), {maxAge: oneHour}));
 
 app.use(require('./routers/api'));
 app.get('/*', function (req, res) {
