@@ -142,7 +142,7 @@ function sendApiToken(req, res) {
         subject: req.user.id.toString(),
         role: 'user'
     }, keys.app.secret);
-    res.setHeader('Authorization', 'JWT ' + token.toString());
+    res.setHeader('Authorization', 'Bearer ' + token.toString());
     res.json(req.user);
 }
 
