@@ -1,0 +1,47 @@
+{
+  "name": "ng-google-signin",
+  "version": "0.1.0",
+  "description": "A angular module which handles the login with Google Signin",
+  "main": "Gruntfile.js",
+  "scripts": {
+    "test": "grunt karma:ci"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/astiusa/ng-google-signin.git"
+  },
+  "keywords": [
+    "google",
+    "signin",
+    "angular",
+    "login",
+    "api"
+  ],
+  "bugs": {
+    "url": "https://github.com/astiusa/ng-google-signin/issues"
+  },
+  "author": "Ryan Tucker <ryan.tucker@asti-usa.com>",
+  "license": "MIT",
+  "readmeFilename": "README.md",
+  "devDependencies": {
+    "grunt": "~0.4.1",
+    "grunt-contrib-jshint": "^0.11.2",
+    "grunt-contrib-uglify": "^0.9.1",
+    "grunt-contrib-watch": "~0.6.1",
+    "grunt-karma": "^0.12.0",
+    "istanbul": "^0.3.18",
+    "jasmine-core": "^2.3.4",
+    "karma": "^0.13.9",
+    "karma-chrome-launcher": "^0.2.0",
+    "karma-coffee-preprocessor": "^0.3.0",
+    "karma-coverage": "^0.5.0",
+    "karma-firefox-launcher": "~0.1.0",
+    "karma-html2js-preprocessor": "~0.1.0",
+    "karma-jasmine": "~0.3.0",
+    "karma-opera-launcher": "^0.3.0",
+    "karma-phantomjs-launcher": "^0.2.0",
+    "karma-safari-launcher": "~0.1.1",
+    "karma-script-launcher": "~0.1.0",
+    "phantomjs": "^1.9.17"
+  }
+}
