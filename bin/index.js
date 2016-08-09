@@ -32,7 +32,6 @@ app.use(passport.initialize());
 require('./config/auth')(app);
 
 var oneHour = 3600 * 1000;
-console.log(path.join(__dirname, '../public'));
 app.use(express.static(path.join(__dirname, '../public'), {maxAge: oneHour}));
 
 app.use(require('./routers/api'));
