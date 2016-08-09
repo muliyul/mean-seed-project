@@ -439,9 +439,3 @@ nbactions.xml
 ### Example user template
 
 # IntelliJ project files
-/public/libs/**/*
-*.js
-*.css
-*.less
-!*.min.*
-!/public/libs/ng-facebook/ngFacebook.js
