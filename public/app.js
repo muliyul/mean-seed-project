@@ -64,7 +64,6 @@ angular.module('app', [
                     controller: 'resetPassCtrl as vm',
                     templateUrl: 'components/auth/reset.html'
                 })
-
                 .state('profile', {
                     url: '/profile',
                     controller: 'profileCtrl as vm',
