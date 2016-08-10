@@ -148,8 +148,8 @@ function sendApiToken(req, res) {
 
 module.exports = function (app) {
     app.post('/auth/login/:method', function (req, res, next) {
-        var method = req.params.method.toLowerCase();
         try {
+            var method = req.params.method.toLowerCase();
             passport.authenticate(method)(req, res, next);
         }
         catch (e) {

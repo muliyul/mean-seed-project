@@ -14,7 +14,7 @@ angular.module('app', [
 
             $compileProvider.debugInfoEnabled(false);
 
-            $ocLazyLoadProvider.config({debug: true});
+            //$ocLazyLoadProvider.config({debug: true});
             $localStorageProvider.setKeyPrefix('app');
 
             $httpProvider.interceptors.push('jwtInterceptor');
@@ -33,7 +33,6 @@ angular.module('app', [
                     url: '/',
                     templateUrl: 'components/statics/home.html'
                 })
-
                 .state('auth', {
                     abstract: true,
                     template: '<ui-view></ui-view>',
