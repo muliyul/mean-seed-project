@@ -81,6 +81,15 @@ gulp.task('watch', function () {
     gulp.watch('./bin/**/*.js', ['restart-bs'], browserSync.reload);
 });
 
+gulp.task('clean', function () {
+    del([
+        publicDir + '/**/*.min.*',
+        publicDir + '/libs/**'
+    ]).then(function (paths) {
+        console.log('Build files cleaned');
+    });
+});
+
 gulp.task('serve', ['watch', 'browser-sync']);
 gulp.task('default', ['watch']);
 
