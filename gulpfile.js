@@ -84,11 +84,14 @@ gulp.task('watch', function () {
 gulp.task('clean', function () {
     del([
         publicDir + '/**/*.min.*',
-        publicDir + '/libs/**'
+        publicDir + '/libs/**',
+        publicDir + '/styles/styles.css'
     ]).then(function (paths) {
         console.log('Build files cleaned');
     });
 });
+
+gulp.task('build', ['scripts', 'less', 'css']);
 
 gulp.task('serve', ['watch', 'browser-sync']);
 gulp.task('default', ['watch']);

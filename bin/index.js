@@ -14,8 +14,6 @@ const passport = require('passport');
 const mongoose = require('mongoose');
 const debug = require('debug')('app');
 const fs = require('fs');
-const config = require('./config/index');
-const dbs = config.database;
 
 mongoose.Promise = require('q').Promise;
 
@@ -29,17 +27,19 @@ app.use(bodyParser.json());
 app.use(passport.initialize());
 //app.use(favicon(path.join(__dirname, 'public/assets/icons/favicon.ico')));
 
-require('./config/auth')(app);
+require('./config')(app);
 
+//Look for statics first
 var oneHour = 3600 * 1000;
-app.use(express.static(path.join(__dirname, '../public'), {maxAge: oneHour}));
-
+app.use(express.static(path.join(__dirname, '..', 'public'), {maxAge: oneHour}));
+//If miss, check API routes
 app.use(require('./routers/api'));
+//Return the index for any other GET request
 app.get('/*', function (req, res) {
     res.sendFile('index.html', {root: path.join(__dirname, '../public')});
 });
 
-mongoose.connect(dbs[config.mode], function (e) {
+mongoose.connect(app.get('db'), function (e) {
     if (e) throw e;
     debug('Connected to database');
     http.createServer(app).listen(app.get('port'), function (e) {
