@@ -38,12 +38,15 @@ const keys = {
 
 const APP_NAME = 'meanbp';
 
-module.exports = function (app, mode) {
-    mode = mode || ENV.DEV;
-    app.set('name', APP_NAME);
-    app.set('mode', mode);
-    app.set('baseUrl', baseUrl[mode]);
-    app.set('db', db[mode]);
-    app.set('keys', keys);
-    require('./auth')(app);
-};
+module.exports = {
+    ENV: ENV,
+    configure: function (app, mode) {
+        mode = mode || ENV.DEV;
+        app.set('name', APP_NAME);
+        app.set('mode', mode);
+        app.set('baseUrl', baseUrl[mode]);
+        app.set('db', db[mode]);
+        app.set('keys', keys);
+        require('./auth')(app);
+    }
+}

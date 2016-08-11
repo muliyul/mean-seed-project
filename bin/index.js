@@ -27,7 +27,8 @@ app.use(bodyParser.json());
 app.use(passport.initialize());
 //app.use(favicon(path.join(__dirname, 'public/assets/icons/favicon.ico')));
 
-require('./config')(app);
+const config = require('./config');
+config.configure(app, config.ENV.PROD);
 
 //Look for statics first
 var oneHour = 3600 * 1000;
