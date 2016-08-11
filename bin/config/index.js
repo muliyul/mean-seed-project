@@ -10,7 +10,7 @@ const ENV = {
 
 var baseUrl = {};
 baseUrl[ENV.DEV] = 'localhost';
-baseUrl[ENV.PROD] = 'domain.com';
+baseUrl[ENV.PROD] = 'https://meanbp.herokuapp.com';
 
 var db = {};
 db[ENV.DEV] = uriBuilder({
@@ -49,4 +49,4 @@ module.exports = {
         app.set('keys', keys);
         require('./auth')(app);
     }
-}
+};
