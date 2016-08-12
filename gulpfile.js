@@ -11,6 +11,7 @@ const htmlmin = require('gulp-htmlmin');
 const browserSync = require('browser-sync').create();
 const publicDir = path.join(__dirname, 'public');
 const del = require('del');
+const fs = require('fs');
 
 gulp.task('scripts', function () {
     gulp.src([
@@ -91,7 +92,21 @@ gulp.task('clean', function () {
     });
 });
 
-gulp.task('build', ['scripts', 'less', 'css']);
+gulp.task('gitignore-dev', function () {
+    fs.appendFile('.gitignore', 'public/libs/**/*' +
+        '!public/libs/**/' +
+        '!public/libs/**/*.js' +
+        '!public/libs/**/*.css', console.error);
+});
+
+gulp.task('gitignore-build', function () {
+    fs.appendFile('.gitignore', 'public/libs/**/*' +
+        '!public/libs/**/' +
+        '!public/libs/**/*.js' +
+        '!public/libs/**/*.css', console.error);
+});
+
+gulp.task('build', ['scripts', 'less', 'css'/*, 'gitignore-build'*/]);
 
 gulp.task('serve', ['watch', 'browser-sync']);
 gulp.task('default', ['watch']);

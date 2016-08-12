@@ -46,8 +46,3 @@ crashlytics-build.properties
 fabric.properties
 
 node_modules
-
-public/libs/**/*
-!public/libs/**/
-!public/libs/**/*.js
-!public/libs/**/*.css
