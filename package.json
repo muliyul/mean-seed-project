@@ -11,7 +11,7 @@
   "license": "ISC",
   "dependencies": {
     "async": "^2.0.0-rc.4",
-    "bcrypt": "^0.8.6",
+    "bcrypt": "^5.0.0",
     "body-parser": "^1.15.1",
     "compression": "^1.6.1",
     "cors": "^2.7.1",
